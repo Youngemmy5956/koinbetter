@@ -1,47 +1,47 @@
 @extends('layout.userdashboard')
 
 @section('content')
-            <div class="page-displayer">
-                <p class="header">overview</p>
+    <div class="page-displayer">
+        <p class="header">overview</p>
 
-        @if(!empty($overview))
-        <div class=" overview-container animate__animated animate__bounceInDown">
-            <div class="overview-card">
-                <h2>Invested (USD)</h2>
-                <p>{{ $overview->amount }}</p>
+        @if (!empty($overview))
+            <div class=" overview-container animate__animated animate__bounceInDown">
+                <div class="overview-card">
+                    <h2>Invested (USD)</h2>
+                    <p>{{ $overview->amount }}</p>
+                </div>
+                <div class="overview-card">
+                    <h2>Active Plan ({{ $overview->plan }})</h2>
+                    <p>{{ $overview->plan }}</p>
+                </div>
+                <div class="overview-card">
+                    <h2>ROI</h2>
+                    <p>{{ $overview->roi }}</p>
+                </div>
+                <div class="overview-card">
+                    <h2>ROI (USD)</h2>
+                    <p>{{ $overview->roi }}</p>
+                </div>
             </div>
-            <div class="overview-card">
-                <h2>Active Plan ({{ $overview->plan }})</h2>
-                <p>{{ $overview->plan }}</p>
-            </div>
-            <div class="overview-card">
-                <h2>ROI</h2>
-                <p>{{ $overview->roi }}</p>
-            </div>
-            <div class="overview-card">
-                <h2>ROI (USD)</h2>
-                <p>{{ $overview->roi }}</p>
-            </div>
-        </div>
         @else
-        <div class=" overview-container animate__animated animate__bounceInDown">
-            <div class="overview-card">
-                <h2>Invested (USD)</h2>
-                <p>$0.00</p>
+            <div class=" overview-container animate__animated animate__bounceInDown">
+                <div class="overview-card">
+                    <h2>Invested (USD)</h2>
+                    <p>$0.00</p>
+                </div>
+                <div class="overview-card">
+                    <h2>Active Plan ()</h2>
+                    <p>$0.00</p>
+                </div>
+                <div class="overview-card">
+                    <h2>ROI</h2>
+                    <p>%0.00</p>
+                </div>
+                <div class="overview-card">
+                    <h2>ROI (USD)</h2>
+                    <p>%0.00</p>
+                </div>
             </div>
-            <div class="overview-card">
-                <h2>Active Plan ()</h2>
-                <p>$0.00</p>
-            </div>
-            <div class="overview-card">
-                <h2>ROI</h2>
-                <p>%0.00</p>
-            </div>
-            <div class="overview-card">
-                <h2>ROI (USD)</h2>
-                <p>%0.00</p>
-            </div>
-        </div>
         @endif
 
 
@@ -49,15 +49,23 @@
         <div class="start-mining-container animate__animated animate__bounceInUp">
             <header>
                 <p>Active Plan</p>
-                    <p class="upgrade">upgrade</p>
+                <p class="upgrade">upgrade</p>
             </header>
 
             <div class="mining-info">
                 <div class="mining-plans">
                     <div class="mining-plan-text-container">
-                        <p> [Wallet USD]</p>
-                        <h2>You are on daily investment plan</h2>
-                        <h4 class="amount">$0000</h4>
+                        @if (!empty($overview))
+                            <div class="overview-card">
+                                <h2>Active Plan ({{ $overview->plan }})</h2>
+                                <p>{{ $overview->plan }}</p>
+                            </div>
+                        @else
+                            <div class="overview-card">
+                                <h2>Active Plan ()</h2>
+                                <p>$0.00</p>
+                            </div>
+                        @endif
                         <button class="reset-plan-btn">Current Plan</button>
                     </div>
                     <img src="" alt="">
@@ -80,37 +88,37 @@
                     <p>expiry date</p>
                 </div>
 
-                    @if(empty($history))
-                        <center>No Data</center>
-                    @else
-                    @foreach($history as $hist)
-                    <div class="my-plan-card-container">
-                    <div class="my-plan-card">
-                        <p>{{ $hist->plan }}</p>
+                @if (empty($history))
+                    <center>No Data</center>
+                @else
+                    @foreach ($history as $hist)
+                        <div class="my-plan-card-container">
+                            <div class="my-plan-card">
+                                <p>{{ $hist->plan }}</p>
 
 
-                    </div>
-                    <div class="my-plan-card">
-                        {!! $hist->status ? '<p>active </p>':'<p class="disabled">active </p>' !!}
+                            </div>
+                            <div class="my-plan-card">
+                                {!! $hist->status ? '<p>active </p>' : '<p class="disabled">active </p>' !!}
 
-                    </div>
-                    <div class="my-plan-card">
-                        <p class="date">
-                            {{ $hist->purchase_date }}
-                        </p>
+                            </div>
+                            <div class="my-plan-card">
+                                <p class="date">
+                                    {{ $hist->purchase_date }}
+                                </p>
 
-                    </div>
-                    <div class="my-plan-card">
-                        <p class="date">
-                            {{ $hist->expiry_date }}
-                        </p>
+                            </div>
+                            <div class="my-plan-card">
+                                <p class="date">
+                                    {{ $hist->expiry_date }}
+                                </p>
 
-                    </div>
-                     </div>
+                            </div>
+                        </div>
                     @endforeach
-                    @endif
+                @endif
 
             </div>
         </div>
-            </div>
+    </div>
 @endsection
